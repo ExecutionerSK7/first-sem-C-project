@@ -371,11 +371,8 @@ void deleterecord()
 void viewrecord()
 {
 		system("cls");
-		FILE* fp;
-		char filename[30];
-
 		printf("\n\n\t\t====================================\n");
-		printf("\t\t\t - LIST RECORDS -");
+		printf("\t\t\t - LIST OF RECORDS -");
 		printf("\n\t\t====================================\n");
 
 		fp = fopen("filename", "rb");
@@ -383,17 +380,18 @@ void viewrecord()
 		while ((fread(&record, sizeof(record), 1, fp)) == 1)
 		{
 			printf("\n\n\t\t::PRESS ENTER TO VIEW MORE RECORDS!::\n");
-			printf("\nID = %s", record.id);
-			printf("\nCONVICT'S NAME IS: %s", record.name);
-			printf("\nCONVICT'S SEX IS: %s", record.gender);
-			printf("\nCONVICT'S WEIGHT IS: %s", record.weight);
-			printf("\nCONVICT'S HEIGHT IS: %s", record.height);
-			printf("\nCONVICT'S HAIRCOLOR IS: %s", record.hair);
-			printf("\nCONVICT'S EYECOLOR IS: %s", record.eye);
-			printf("\nCONVICT'S CRIME IS: %s", record.crime);
-			printf("\nADDRESS OF POLICE STATION: %s", record.address);
+			printf("\n\n\t\t===========\n");
+			printf("\n %c ID = %s                       %c", 179, record.id);
+			printf("\n %c Convict's name: %s            %c", 179, record.name);
+			printf("\n %c Convict's name: %s            %c", 179, record.name);
+			printf("\n %c Convict's gender: %s          %c", 179, record.gender);
+			printf("\n %c Convict's weight: %s          %c", 179, record.weight);
+			printf("\n %c Convict's height: %s          %c", 179, record.height);
+			printf("\n %c Convict's haircolor: %s       %c", 179, record.hair);
+			printf("\n %c Convict's eyecolor: %s        %c", 179, record.eye);
+			printf("\n %c Convict's crime: %s           %c", 179, record.crime);
+			printf("\n %c Address of police station: %s %c", 179, record.address);
 			getch();
-
 		}
 		fclose(fp);
 		getch();
