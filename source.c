@@ -29,9 +29,9 @@ void addrecord();
 //void searchrecord();
 //void editrecord();
 void viewrecord();
-//void deleterecord();
+void deleterecord();
 
-FILE* fp;
+FILE* fp, * ft;
 
 void main()
 {	
@@ -70,16 +70,16 @@ void main()
 		case 2:
 			addrecord();
 			break;
-/*
-		case 3:
-			editrecord();
-			break;
+
+//		case 3:
+//			editrecord();
+//			break;
 
 		case 4:
 			deleterecord();
 			break;
 
-		case 5:
+/*		case 5:
 			searchrecord();
 			break;
 */
@@ -261,7 +261,7 @@ void addrecord()
 
 			printf("\tENTER EYECOLOR: ");
 			gets(record.eye);
-			fflush(stdin);
+			fseek(stdin,0,SEEK_END);
 
 			printf("\tENTER CRIME: ");
 			gets(record.crime);
@@ -288,6 +288,86 @@ void addrecord()
 
 }
 
+void deleterecord()
+{
+	system("cls");
+	struct Record U;
+	char filename[15], another = 'Y', id[16];;
+	int choice, check;
+	int j = 0;
+	char pass[8];
+
+	printf("\n\n\t\t====================================\n");
+	printf("\t\t\t- DELETE RECORDS -");
+	printf("\n\t\t====================================\n\n");
+
+	printf("\nENTER PASSWORD\n");
+	int i;
+	scanf("%s", pass);
+
+	if (strcmpi(pass, "pass") == 0)
+	{
+
+		printf("\n\t\t*ACCESS GRANTED*\n\n");
+		while (another == 'Y' || another == 'y')
+
+		{
+			fp = fopen("filename", "rb");
+			if (fp == NULL)
+			{
+				printf("\nTHE FILE DOES NOT EXIST");
+				printf("\nPRESS ANY KEY TO GO BACK.");
+				getch();
+				return;
+			}
+			ft = fopen("temp", "wb");
+
+			if (ft == NULL)
+			{
+				printf("\nSYSTEM ERROR");
+				printf("\nPRESS ANY KEY TO GO BACK");
+				getch();
+				return;
+			}
+			printf("\n\tENTER THE ID OF RECORD TO BE DELETED:");
+			fseek(stdin,0,SEEK_END);
+			gets(id);
+
+			while (fread(&U, sizeof(U), 1, fp) == 1)
+
+			{
+
+				if (strcmp(U.id, id) != 0)
+
+					fwrite(&U, sizeof(U), 1, ft);
+
+			}
+			fclose(ft);
+			fclose(fp);
+			remove("filename");
+			rename("temp", "filename");
+			printf("\nDELETED SUCCESFULLY...");
+			getch();
+
+			printf("\n\tDO YOU LIKE TO DELETE ANOTHER RECORD.(Y/N):");
+			fseek(stdin,0,SEEK_END);
+			scanf("%c", &another);
+
+		}
+
+
+		printf("\n\n\tPRESS ANY KEY TO EXIT...");
+
+		getch();
+	}
+	else
+	{
+		printf("\nSorry!Invalid password\n");
+		printf("Return to main menu....");
+		getch();
+	}
+}
+
 void viewrecord()
 {
 		system("cls");
@@ -303,6 +383,7 @@ void viewrecord()
 		while ((fread(&record, sizeof(record), 1, fp)) == 1)
 		{
 			printf("\n\n\t\t::PRESS ENTER TO VIEW MORE RECORDS!::\n");
+			printf("\nID = %s", record.id);
 			printf("\nCONVICT'S NAME IS: %s", record.name);
 			printf("\nCONVICT'S SEX IS: %s", record.gender);
 			printf("\nCONVICT'S WEIGHT IS: %s", record.weight);
