@@ -86,7 +86,8 @@ void main()
 		case 6:
 			system("cls");
 			printf("\n\n\t\tThank you for using PRMS. Your program will now exit.\n\n ");
-			getch();
+			loadscreen(100);
+			Sleep(50);
 			exit(0);
 
 		default:
@@ -121,6 +122,7 @@ void loadscreen(int time)
 
 	printf("\n\t\t    |_|    |_|  \\_\\_|  |_|_____/ ");
 	Sleep(time);
+	printf(" (c) 2021");
 	
 
 }
@@ -246,6 +248,7 @@ void addrecord()
 			scanf("%d", &record.dob.month);
 			printf("Enter day: ");
 			scanf("%d", &record.dob.day);
+			fseek(stdin, 0, SEEK_END);
 
 			printf("\tENTER WEIGHT: ");
 			gets(record.weight);
@@ -291,7 +294,7 @@ void addrecord()
 void editrecord()
 {
 	system("cls");
-	char id[10], select, filename[14];
+	char id[10], select = 'Y', filename[14];
 	int choice, count = 0;
 
 	printf("\n\n\t\t====================================\n");
@@ -313,6 +316,7 @@ void editrecord()
 
 				printf("\n %c ID = %s                       ", 179, record.id);
 				printf("\n %c Convict's name: %s            ", 179, record.name);
+				printf("\n %c Convict's date of birth: %d/%d/%d  ", 179, record.dob.year, record.dob.month, record.dob.day);
 				printf("\n %c Convict's gender: %s          ", 179, record.gender);
 				printf("\n %c Convict's weight: %s          ", 179, record.weight);
 				printf("\n %c Convict's height: %s          ", 179, record.height);
@@ -324,15 +328,18 @@ void editrecord()
 				printf("\n\n\t\tWhich details would you like to edit?");
 
 				printf("\n %c 1.Name.", 179);
-				printf("\n %c 2.Gender", 179);
-				printf("\n %c 3.Weight", 179);
-				printf("\n %c 4.Height", 179);
-				printf("\n %c 5.Haircolor", 179);
-				printf("\n %c 6.Eyecolor", 179);
-				printf("\n %c 7.Crime", 179);
-				printf("\n %c 8.Address of police station", 179);
-				printf("\n %c 9.Edit whole record", 179);
-				printf("\n %c 10.Go back", 179);
+				printf("\n %c 2.Birth year ", 179);
+				printf("\n %c 3.Birth month ", 179);
+				printf("\n %c 4.Birth day ", 179);
+				printf("\n %c 5.Gender", 179);
+				printf("\n %c 6.Weight", 179);
+				printf("\n %c 7.Height", 179);
+				printf("\n %c 8.Haircolor", 179);
+				printf("\n %c 9.Eyecolor", 179);
+				printf("\n %c 10.Crime", 179);
+				printf("\n %c 11.Address of police station", 179);
+				printf("\n %c 12.Edit whole record", 179);
+				printf("\n %c 13.Go back", 179);
 
 				do
 				{
@@ -349,34 +356,46 @@ void editrecord()
 						gets(record.name);
 						break;
 					case 2:
+						printf("Enter new year: ");
+						scanf("%d", &record.dob.year);
+						break;
+					case 3:
+						printf("Enter new month: ");
+						scanf("%d", &record.dob.month);
+						break;
+					case 4:
+						printf("Enter new birthday: ");
+						scanf("%d", &record.dob.day);
+						break;
+					case 5:
 						printf("Enter new Gender: ");
 						gets(record.gender);
 						break;
-					case 3:
+					case 6:
 						printf("Enter new weight: ");
 						gets(record.weight);
 						break;
-					case 4:
+					case 7:
 						printf("Enter new height: ");
 						gets(record.height);
 						break;
-					case 5:
+					case 8:
 						printf("Enter new haircolor: ");
 						gets(record.hair);
 						break;
-					case 6:
+					case 9:
 						printf("Enter new eyecolor: ");
 						gets(record.eye);
 						break;
-					case 7:
+					case 10:
 						printf("Enter new crime: ");
 						gets(record.crime);
 						break;
-					case 8:
+					case 11:
 						printf("Enter new address: ");
 						gets(record.address);
 						break;
-					case 9:
+					case 12:
 						printf("ENTER THE NEW DATA:");
 
 						printf("Enter new name: ");
@@ -405,7 +424,7 @@ void editrecord()
 						
 						break;
 
-					case 10:
+					case 13:
 						printf("\nPRESS ANY KEY TO GO BACK...\n");
 						getch();
 						return;
@@ -413,21 +432,20 @@ void editrecord()
 
 					default:
 						printf("\nInvalid input. Try again.\n");
-
 						break;
 
 					}
 
 				}
-				while (choice < 1 || choice>10);
+				while (choice < 1 || choice>13);
 
 				fseek(fp, -sizeof(record), SEEK_CUR);
 
 				fwrite(&record, sizeof(record), 1, fp);
 
-				fseek(fp, -sizeof(record), SEEK_CUR);
+				//fseek(fp, -sizeof(record), SEEK_CUR);
 
-				fread(&record, sizeof(record), 1, fp);
+				//fread(&record, sizeof(record), 1, fp);
 
 				select = 'Y';
 
@@ -448,7 +466,7 @@ void editrecord()
 			printf("--------------------\n");
 			printf("\n %c ID = %s                       ", 179, record.id);
 			printf("\n %c Convict's name: %s            ", 179, record.name);
-			//printf("\n %c Convict's name: %s            %c", 179, record.name);
+			printf("\n %c Convict's date of birth: %d/%d/%d  ", 179, record.dob.year, record.dob.month, record.dob.day);
 			printf("\n %c Convict's gender: %s          ", 179, record.gender);
 			printf("\n %c Convict's weight: %s          ", 179, record.weight);
 			printf("\n %c Convict's height: %s          ", 179, record.height);
@@ -483,20 +501,33 @@ void deleterecord()
 {
 	system("cls");
 	struct Record U;
-	char filename[15], another = 'Y', id[16];;
+	char filename[15], another = 'Y', id[16];
+	char pword[10];
+	char c = ' ';
 	int choice, check;
 	int j = 0;
-	char pass[8];
+	int i = 0;
+	//char pass[8];
 
 	printf("\n\n\t\t====================================\n");
 	printf("\t\t\t- DELETE RECORDS -");
 	printf("\n\t\t====================================\n\n");
 
 	printf("\nENTER PASSWORD\n");
-	int i;
-	scanf("%s", pass);
+	/*int i;
+	scanf("%s", pass);*/
 
-	if (strcmpi(pass, "pass") == 0)
+	while (i < 10)
+	{
+		pword[i] = getch();
+		c = pword[i];
+		if (c == 13) break;
+		else printf("*");
+		i++;
+	}
+	pword[i] = '\0';
+
+	if (strcmpi(pword, "pass") == 0)
 	{
 
 		printf("\n\t\t*ACCESS GRANTED*\n\n");
@@ -576,6 +607,7 @@ void viewrecord()
 			//printf("\n %c Convict's name: %s            %c", 179, record.name);
 			printf("\n %c Convict's name: %s            ", 179, record.name);
 			printf("\n %c Convict's gender: %s          ", 179, record.gender);
+			printf("\n %c Convict's date of birth: %d/%d/%d:  ", 179, record.dob.year, record.dob.month, record.dob.day);
 			printf("\n %c Convict's weight: %s          ", 179, record.weight);
 			printf("\n %c Convict's height: %s          ", 179, record.height);
 			printf("\n %c Convict's haircolor: %s       ", 179, record.hair);
