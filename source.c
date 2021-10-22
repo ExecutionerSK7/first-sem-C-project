@@ -26,7 +26,7 @@ struct Record{
 void loadscreen(int time);
 void login();
 void addrecord();
-//void searchrecord();
+void searchrecord();
 void editrecord();
 void viewrecord();
 void deleterecord();
@@ -47,16 +47,15 @@ void main()
 	while (1)
 	{
 		printf("\n\n\n\n\t        ##MAIN MENU##\n");
-		//printf("%c\n", 179);
-		printf("   %c            ===========              %c\n", 179, 179);
-		printf("   %c                                     %c\n", 179, 179);
-		printf("   %c  [1] View available records         %c\n", 179, 179);
-		printf("   %c  [2] Add a new record               %c\n", 179, 179);
-		printf("   %c  [3] Edit existing Record           %c\n", 179, 179);
-		printf("   %c  [4] Delete existing Record         %c\n", 179, 179);
-		printf("   %c  [5] Search for a Record            %c\n", 179, 179);
-		printf("   %c  [6] Exit                           %c\n", 179, 179);
-		printf("    -------------------------------------\n");
+		printf("   %c            =============              %c\n", 179, 179);
+		printf("   %c                                       %c\n", 179, 179);
+		printf("   %c  [1] View available records           %c\n", 179, 179);
+		printf("   %c  [2] Add a new record                 %c\n", 179, 179);
+		printf("   %c  [3] Edit existing Record             %c\n", 179, 179);
+		printf("   %c  [4] Delete existing Record           %c\n", 179, 179);
+		printf("   %c  [5] Search for a Record              %c\n", 179, 179);
+		printf("   %c  [6] Exit                             %c\n", 179, 179);
+		printf("    ---------------------------------------\n");
 		printf("\n\n\t\t\tChoose an option.....:\t");
 		scanf("%d", &ch);
 
@@ -79,10 +78,10 @@ void main()
 			deleterecord();
 			break;
 
-/*		case 5:
+		case 5:
 			searchrecord();
 			break;
-*/
+
 		case 6:
 			system("cls");
 			printf("\n\n\t\tThank you for using PRMS. Your program will now exit.\n\n ");
@@ -129,7 +128,7 @@ void loadscreen(int time)
 void login()
 {
 	int atmpt = 0, i = 0;
-	char user[10], c = ' ';
+	char user[10], c;
 	char pword[10], code[10];
 
 	do
@@ -143,7 +142,8 @@ void login()
 		{
 			pword[i] = getch();
 			c = pword[i];
-			if (c == 13) break;
+			//printf("%c", pword[i]);
+			if (c == 13 || i > 8) break;
 			else printf("*");
 			i++;
 		}
@@ -521,11 +521,12 @@ void deleterecord()
 	{
 		pword[i] = getch();
 		c = pword[i];
-		if (c == 13) break;
+		if (c == 13 || i>8) break;
 		else printf("*");
 		i++;
 	}
 	pword[i] = '\0';
+	i = 0;
 
 	if (strcmpi(pword, "pass") == 0)
 	{
@@ -588,6 +589,69 @@ void deleterecord()
 		printf("Return to main menu....");
 		getch();
 	}
+}
+
+void searchrecord()
+{
+	system("cls");
+	char id[16], Y, filename[14];
+	char choice;
+	int ch;
+
+	printf("\n\n\t\t====================================\n");
+	printf("\t\t\t- SEARCH RECORDS -");
+	printf("\n\t\t====================================\n\n");
+	fp = fopen("filename", "rb");
+
+	do
+	{
+		//fp = fopen("filename", "rb");
+		//system("cls");
+		fseek(stdin, 0, SEEK_END);
+		printf("\nENTER CONVICT CODE:");
+		gets(id);
+		system("cls");
+		printf("\nThe record of ID %s is: ", id);
+
+		while (fread(&record, sizeof(record), 1, fp) == 1)
+		{
+			if (strcmpi(record.id, id) == 0)
+			{
+				printf("\n");
+				printf("\n %c ID = %s                       ", 179, record.id);
+				printf("\n %c Convict's name: %s            ", 179, record.name);
+				printf("\n %c Convict's gender: %s          ", 179, record.gender);
+				printf("\n %c Convict's date of birth: %d/%d/%d:  ", 179, record.dob.year, record.dob.month, record.dob.day);
+				printf("\n %c Convict's weight: %s          ", 179, record.weight);
+				printf("\n %c Convict's height: %s          ", 179, record.height);
+				printf("\n %c Convict's haircolor: %s       ", 179, record.hair);
+				printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
+				printf("\n %c Convict's crime: %s           ", 179, record.crime);
+				printf("\n %c Address of police station: %s ", 179, record.address);
+				break;
+				//getch();
+			}
+			else {
+				fseek(stdin, 0, SEEK_END);
+				printf("\nNo such ID exists. Would you like to create a new new one?(Y/N)");
+				scanf("%c", &choice);
+				if (choice == 'Y' || choice == 'y') {
+					addrecord();
+				}
+				else {
+					break;
+				}
+			}
+
+		}
+
+		printf("\n\nWOULD YOU LIKE TO CONTINUE searching...(Y/N):");
+		fflush(stdin);
+
+		scanf("%c", &Y);
+
+	}while (Y == 'Y' || Y == 'y');
+	fclose(fp);
 }
 
 void viewrecord()
