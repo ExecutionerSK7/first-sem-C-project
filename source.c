@@ -142,20 +142,17 @@ void login()
 		{
 			pword[i] = getch();
 			c = pword[i];
-			//printf("%c", pword[i]);
 			if (c == 13 || i > 8) break;
 			else printf("*");
 			i++;
 		}
 		pword[i] = '\0';
-		//char code=pword;
 		i = 0;
-		//scanf("%s",&pword); 
 		if (strcmp(user, "user") == 0 && strcmp(pword, "pass") == 0)
 		{
 			printf("  \n\n\n    LOGIN SUCCESSFUL!! ");
 			printf("\n\n\n\t\t\tEnter any key to continue...");
-			getch();//holds the screen
+			getch();
 			break;
 		}
 		else
@@ -163,7 +160,7 @@ void login()
 			printf("\n        SORRY !!!!  LOGIN IS UNSUCESSFUL");
 			atmpt++;
 
-			getch();//holds the screen
+			getch();
 			system("cls");
 
 		}
@@ -286,7 +283,7 @@ void addrecord()
 	}
 
 	fclose(fp);
-	printf("\n\n\tPRESS ANY KEY TO EXIT...");
+	printf("\n\n\tPRESS ANY KEY TO RETURN TO PREVIOUS MENU...");
 	getch();
 
 }
@@ -436,8 +433,7 @@ void editrecord()
 
 					}
 
-				}
-				while (choice < 1 || choice>13);
+				}while (choice < 1 || choice>13);
 
 				fseek(fp, -sizeof(record), SEEK_CUR);
 
@@ -507,7 +503,6 @@ void deleterecord()
 	int choice, check;
 	int j = 0;
 	int i = 0;
-	//char pass[8];
 
 	printf("\n\n\t\t====================================\n");
 	printf("\t\t\t- DELETE RECORDS -");
@@ -595,8 +590,9 @@ void searchrecord()
 {
 	system("cls");
 	char id[16], Y, filename[14];
-	char choice;
+	char addnew;
 	int ch;
+	int flag = 0;
 
 	printf("\n\n\t\t====================================\n");
 	printf("\t\t\t- SEARCH RECORDS -");
@@ -605,18 +601,18 @@ void searchrecord()
 
 	do
 	{
-		//fp = fopen("filename", "rb");
-		//system("cls");
 		fseek(stdin, 0, SEEK_END);
 		printf("\nENTER CONVICT CODE:");
 		gets(id);
 		system("cls");
-		printf("\nThe record of ID %s is: ", id);
+		fseek(stdin, 0, SEEK_END);
 
 		while (fread(&record, sizeof(record), 1, fp) == 1)
 		{
+			
 			if (strcmpi(record.id, id) == 0)
 			{
+				printf("\nThe record of ID %s is: \n", id);
 				printf("\n");
 				printf("\n %c ID = %s                       ", 179, record.id);
 				printf("\n %c Convict's name: %s            ", 179, record.name);
@@ -628,22 +624,19 @@ void searchrecord()
 				printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
 				printf("\n %c Convict's crime: %s           ", 179, record.crime);
 				printf("\n %c Address of police station: %s ", 179, record.address);
-				break;
-				//getch();
+				flag = 1;
 			}
-			else {
-				fseek(stdin, 0, SEEK_END);
-				printf("\nNo such ID exists. Would you like to create a new new one?(Y/N)");
-				scanf("%c", &choice);
-				if (choice == 'Y' || choice == 'y') {
-					addrecord();
-				}
-				else {
-					break;
-				}
-			}
-
 		}
+		if (flag == 0) {
+			printf("\nNo such record exists. Would you like to add new record?(Y/N) \n");
+			scanf("%c", &addnew);
+			if (addnew == 'Y' || addnew == 'y') {
+				addrecord();
+			}
+			system("cls");
+			
+		}
+		fp = fopen("filename", "rb");
 
 		printf("\n\nWOULD YOU LIKE TO CONTINUE searching...(Y/N):");
 		fflush(stdin);
@@ -668,7 +661,6 @@ void viewrecord()
 			printf("\n\n\t\t::PRESS ENTER TO VIEW MORE RECORDS!::\n");
 			printf("\n\n\t\t===========\n");
 			printf("\n %c ID = %s                       ", 179, record.id);
-			//printf("\n %c Convict's name: %s            %c", 179, record.name);
 			printf("\n %c Convict's name: %s            ", 179, record.name);
 			printf("\n %c Convict's gender: %s          ", 179, record.gender);
 			printf("\n %c Convict's date of birth: %d/%d/%d:  ", 179, record.dob.year, record.dob.month, record.dob.day);
