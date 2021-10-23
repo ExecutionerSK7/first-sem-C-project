@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION "3.19.2")
+cmake_minimum_required(VERSION 3.19.2)
 
-project(first-sem-C-project)
+project(prms)
+
+add_executable(prms source.c)
 
