@@ -31,23 +31,24 @@ void searchrecord();
 void editrecord();
 void viewrecord();
 void deleterecord();
+void credits();
 
 FILE* fp, * ft;
 
 void main()
 {	
 	system("cls");
-	//mkdir("file");
+	system("mkdir file");
 	loadscreen(100);
-	setColor(WHITE);
 	login();
 	system("cls");
-
+	system("color 17");
 	int ch;
 
 	//main program loop
 	while (1)
-	{
+	{	
+		system("color 17");
 		printf("\n\n\n\n\t        ##MAIN MENU##\n");
 		printf("   %c            =============              %c\n", 179, 179);
 		printf("   %c                                       %c\n", 179, 179);
@@ -88,7 +89,8 @@ void main()
 			system("cls");
 			printf("\n\n\t\tThank you for using PRMS. Your program will now exit.\n\n ");
 			loadscreen(100);
-			Sleep(50);
+			credits();
+			Sleep(100);
 			exit(0);
 
 		default:
@@ -105,7 +107,8 @@ void main()
 }
 
 void loadscreen(int time)
-{
+{	
+	system("color 07");
 	setColor(BLUE);
 	printf("\n\t\t     _____  _____  __  __  _____ ");
 	Sleep(time);
@@ -114,11 +117,11 @@ void loadscreen(int time)
 	printf("\n\t\t    |  __ \\|  __ \\|  \\/  |/ ____|");
 	Sleep(time);
 
-	setColor(BLUE);
+	setColor(WHITE);
 	printf("\n\t\t    | |__) | |__) | \\  / | (___  ");
 	Sleep(time);
 
-	setColor(RED);
+	setColor(WHITE);
 	printf("\n\t\t    |  ___/|  _  /| |\\/| |\\___ \\ ");
 	Sleep(time);
 
@@ -129,15 +132,17 @@ void loadscreen(int time)
 	setColor(RED);
 	printf("\n\t\t    |_|    |_|  \\_\\_|  |_|_____/ ");
 	Sleep(time);
-	
+	setColor(YELLOW);
 	printf(" (c) 2021");
 	
-
+	setColor(WHITE);
 }
+
 void login()
 {
 	int atmpt = 0, i = 0;
 	char user[10], c;
+	char ch;
 	char pword[10], code[10];
 
 	do
@@ -147,16 +152,33 @@ void login()
 		printf(" \n                       ENTER USERNAME:-");
 		scanf("%s", &user);
 		printf(" \n                       ENTER PASSWORD:-");
-		while (i < 10)
-		{
-			pword[i] = getch();
-			c = pword[i];
-			if (c == 13 || i > 8) break;
-			else printf("*");
-			i++;
-		}
-		pword[i] = '\0';
-		i = 0;
+    i=0;
+    while(1)
+    {
+        ch=getch();
+        if(ch==13)
+        {
+            pword[i]='\0';
+            break;
+        }
+        else if(ch==8)
+        {
+            if(i>0)
+            {
+                i--;
+                printf("\b \b");
+            }
+        }
+        else if(ch==9)
+            continue;
+        else
+        {
+            pword[i]=ch;
+            i++;
+            printf("*");
+        }
+    }
+    i=0;
 		if (strcmp(user, "user") == 0 && strcmp(pword, "pass") == 0)
 		{
 			printf("  \n\n\n    LOGIN SUCCESSFUL!! ");
@@ -188,6 +210,7 @@ void addrecord()
 
 {
 	system("cls");
+	system("color 57");
 	char Y = 'Y', id[10];
 	char filename[30];
 	int exists;
@@ -197,11 +220,11 @@ void addrecord()
 	printf("\n\t\t====================================\n");
 
 
-	fp = fopen("filename", "ab+");
+	fp = fopen("file//record.txt", "ab+");
 
 	if (fp == NULL)
 	{
-		fp = fopen("filename", "wb+");
+		fp = fopen("file//record.txt", "wb+");
 		if (fp == NULL)
 		{
 			printf("\nSYSTEM ERROR...");
@@ -300,6 +323,7 @@ void addrecord()
 void editrecord()
 {
 	system("cls");
+	system("color 9e");
 	char id[10], select = 'Y', filename[14];
 	int choice, count = 0;
 
@@ -312,7 +336,7 @@ void editrecord()
 		printf("\n\tEnter id:");
 		fseek(stdin, 0, SEEK_END);
 		gets(id);
-		fp = fopen("filename", "rb+");
+		fp = fopen("file//record.txt", "rb+");
 
 		while (fread(&record, sizeof(record), 1, fp) == 1)
 		{
@@ -505,10 +529,12 @@ void editrecord()
 void deleterecord()
 {
 	system("cls");
+	system("color cb");
 	struct Record U;
 	char filename[15], another = 'Y', id[16];
 	char pword[10];
 	char c = ' ';
+	char ch;
 	int choice, check;
 	int j = 0;
 	int i = 0;
@@ -521,16 +547,32 @@ void deleterecord()
 	/*int i;
 	scanf("%s", pass);*/
 
-	while (i < 10)
-	{
-		pword[i] = getch();
-		c = pword[i];
-		if (c == 13 || i>8) break;
-		else printf("*");
-		i++;
-	}
-	pword[i] = '\0';
-	i = 0;
+	while(1)
+    {
+        ch=getch();
+        if(ch==13)
+        {
+            pword[i]='\0';
+            break;
+        }
+        else if(ch==8)
+        {
+            if(i>0)
+            {
+                i--;
+                printf("\b \b");
+            }
+        }
+        else if(ch==9)
+            continue;
+        else
+        {
+            pword[i]=ch;
+            i++;
+            printf("*");
+        }
+    }
+    i=0;
 
 	if (strcmpi(pword, "pass") == 0)
 	{
@@ -539,7 +581,8 @@ void deleterecord()
 		while (another == 'Y' || another == 'y')
 
 		{
-			fp = fopen("filename", "rb");
+			fp = fopen("file//record.txt", "rb");
+			
 			if (fp == NULL)
 			{
 				printf("\nTHE FILE DOES NOT EXIST");
@@ -547,7 +590,7 @@ void deleterecord()
 				getch();
 				return;
 			}
-			ft = fopen("temp", "wb");
+			ft = fopen("file//temp.txt", "wb");
 
 			if (ft == NULL)
 			{
@@ -571,8 +614,8 @@ void deleterecord()
 			}
 			fclose(ft);
 			fclose(fp);
-			remove("filename");
-			rename("temp", "filename");
+			remove("file//record.txt");
+			rename("temp.txt", "record.txt");
 			printf("\nDELETED SUCCESFULLY...");
 			getch();
 
@@ -598,6 +641,7 @@ void deleterecord()
 void searchrecord()
 {
 	system("cls");
+	system("color 80");
 	char id[16], Y, filename[14];
 	char addnew;
 	int ch;
@@ -606,7 +650,7 @@ void searchrecord()
 	printf("\n\n\t\t====================================\n");
 	printf("\t\t\t- SEARCH RECORDS -");
 	printf("\n\t\t====================================\n\n");
-	fp = fopen("filename", "rb");
+	fp = fopen("file//record.txt", "rb");
 
 	do
 	{
@@ -658,29 +702,72 @@ void searchrecord()
 
 void viewrecord()
 {
-		system("cls");
-		printf("\n\n\t\t====================================\n");
-		printf("\t\t\t - LIST OF RECORDS -");
-		printf("\n\t\t====================================\n");
+	system("cls");
+	system("color 9e");
+	printf("\n\n\t\t====================================\n");
+	printf("\t\t\t - LIST OF RECORDS -");
+	printf("\n\t\t====================================\n");
 
-		fp = fopen("filename", "rb");
-		rewind(fp);
-		while ((fread(&record, sizeof(record), 1, fp)) == 1)
-		{
-			printf("\n\n\t\t::PRESS ENTER TO VIEW MORE RECORDS!::\n");
-			printf("\n\n\t\t===========\n");
-			printf("\n %c ID = %s                       ", 179, record.id);
-			printf("\n %c Convict's name: %s            ", 179, record.name);
-			printf("\n %c Convict's gender: %s          ", 179, record.gender);
-			printf("\n %c Convict's date of birth: %d/%d/%d:  ", 179, record.dob.year, record.dob.month, record.dob.day);
-			printf("\n %c Convict's weight: %s          ", 179, record.weight);
-			printf("\n %c Convict's height: %s          ", 179, record.height);
-			printf("\n %c Convict's haircolor: %s       ", 179, record.hair);
-			printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
-			printf("\n %c Convict's crime: %s           ", 179, record.crime);
-			printf("\n %c Address of police station: %s ", 179, record.address);
-			getch();
-		}
-		fclose(fp);
+	fp = fopen("file//record.txt", "rb");
+	if(fp == NULL){
+		printf("File doesn't exists. Press any key to return...\n");
 		getch();
+		return;
+	}
+	rewind(fp);
+	while ((fread(&record, sizeof(record), 1, fp)) == 1)
+	{
+		printf("\n\n\t\t::PRESS ENTER TO VIEW MORE RECORDS!::\n");
+		printf("\n\n\t\t===========\n");
+		printf("\n %c ID = %s                       ", 179, record.id);
+		printf("\n %c Convict's name: %s            ", 179, record.name);
+		printf("\n %c Convict's gender: %s          ", 179, record.gender);
+		printf("\n %c Convict's date of birth: %d/%d/%d:  ", 179, record.dob.year, record.dob.month, record.dob.day);
+		printf("\n %c Convict's weight: %s          ", 179, record.weight);
+		printf("\n %c Convict's height: %s          ", 179, record.height);
+		printf("\n %c Convict's haircolor: %s       ", 179, record.hair);
+		printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
+		printf("\n %c Convict's crime: %s           ", 179, record.crime);
+		printf("\n %c Address of police station: %s ", 179, record.address);
+		getch();
+	}
+	fclose(fp);
+	getch();
+}
+
+void credits()
+{
+	system("cls");
+	setColor(GREEN);
+	gotoxy(75,18);
+	printf("    ---------------------------------------\n");
+	gotoxy(75,19);
+	printf("   %c A program by:                  	   %c\n",179,179);
+    gotoxy(75,20);
+	printf("   %c                                     %c\n",179,179);
+    gotoxy(75,21);
+	printf("   %c  -> Aayush Pathhak                  %c\n",179,179);
+    gotoxy(75,22);
+	printf("   %c  -> Bikash Pandey                   %c\n",179,179);
+    gotoxy(75,23);
+	printf("   %c  -> Bishal Giri                     %c\n",179,179);
+    gotoxy(75,24);
+	printf("   %c  -> Safal Karki                     %c\n",179,179);
+    gotoxy(75,25);
+	printf("    ---------------------------------------\n");
+	hidecursor();
+	for(int i=1;i<7;i++)
+	{
+		setColor(i);
+		gotoxy(40,10);
+		printf("  _____ _  _   _   _  _ _  __ __   _____  _   _ ");
+		gotoxy(40,11);
+		printf(" |_   _| || | /_\\ | \\| | |/ / \\ \\ / / _ \\| | | |");
+		gotoxy(40,12);
+		printf("   | | | __ |/ _ \\| .` | ' <   \\ V / (_) | |_| |");
+		gotoxy(40,13);
+		printf("   |_| |_||_/_/ \\_\\_|\\_|_|\\_\\   |_| \\___/ \\___/ ");
+		Sleep(200);
+	}
+	getch();
 }
