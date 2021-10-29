@@ -4,6 +4,7 @@
 #include<Windows.h>
 #include<time.h>
 #include<stdlib.h>
+#include "../include/rlutil.h"
 
 struct Record{
 	char name[30];
@@ -38,6 +39,7 @@ void main()
 	system("cls");
 	//mkdir("file");
 	loadscreen(100);
+	setColor(WHITE);
 	login();
 	system("cls");
 
@@ -104,23 +106,30 @@ void main()
 
 void loadscreen(int time)
 {
+	setColor(BLUE);
 	printf("\n\t\t     _____  _____  __  __  _____ ");
 	Sleep(time);
 
+	setColor(BLUE);
 	printf("\n\t\t    |  __ \\|  __ \\|  \\/  |/ ____|");
 	Sleep(time);
 
+	setColor(BLUE);
 	printf("\n\t\t    | |__) | |__) | \\  / | (___  ");
 	Sleep(time);
 
+	setColor(RED);
 	printf("\n\t\t    |  ___/|  _  /| |\\/| |\\___ \\ ");
 	Sleep(time);
 
+	setColor(RED);
 	printf("\n\t\t    | |    | | \\ \\| |  | |____) |");
 	Sleep(time);
 
+	setColor(RED);
 	printf("\n\t\t    |_|    |_|  \\_\\_|  |_|_____/ ");
 	Sleep(time);
+	
 	printf(" (c) 2021");
 	
 
