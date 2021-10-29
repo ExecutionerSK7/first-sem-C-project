@@ -8,5 +8,5 @@ add_subdirectory(include)
 add_executable(prms src/source.c)
 
 target_link_libraries(prms PRIVATE rlutil)
-set_target_properties(rlutil PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(rlutil PROPERTIES LINKER_LANGUAGE C)
 
