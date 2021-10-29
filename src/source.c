@@ -546,16 +546,16 @@ void deleterecord()
 	printf("\nENTER PASSWORD\n");
 	/*int i;
 	scanf("%s", pass);*/
-
+	
 	while(1)
     {
         ch=getch();
-        if(ch==13)
+        if(ch==13)	//ASCII 13 refers to "return or enter" 
         {
             pword[i]='\0';
             break;
         }
-        else if(ch==8)
+        else if(ch==8)	//ASCII 8 refers to backspace character.
         {
             if(i>0)
             {
@@ -563,7 +563,7 @@ void deleterecord()
                 printf("\b \b");
             }
         }
-        else if(ch==9)
+        else if(ch==9) //ASCII 9 gives horizontal tab character. 
             continue;
         else
         {
