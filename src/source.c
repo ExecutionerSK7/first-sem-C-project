@@ -1,3 +1,9 @@
+/*********************************************************************************
+Program name: Police Record Management System (PRMS)
+Authors: Aayush Pathak, Bikash Pandey, Bishal Giri, Safal Karki
+Description: This is our project for C-Programming of BEI I-I. 
+************************************************************************************/
+
 #include<stdio.h>
 #include<conio.h>
 #include<string.h>
@@ -207,7 +213,6 @@ void login()
 }
 
 void addrecord()
-
 {
 	system("cls");
 	system("color 57");
@@ -220,11 +225,11 @@ void addrecord()
 	printf("\n\t\t====================================\n");
 
 
-	fp = fopen("file//record.txt", "ab+");
+	fp = fopen("file\\record.txt", "ab+");
 
 	if (fp == NULL)
 	{
-		fp = fopen("file//record.txt", "wb+");
+		fp = fopen("file\\record.txt", "wb+");
 		if (fp == NULL)
 		{
 			printf("\nSYSTEM ERROR...");
@@ -336,7 +341,7 @@ void editrecord()
 		printf("\n\tEnter id:");
 		fseek(stdin, 0, SEEK_END);
 		gets(id);
-		fp = fopen("file//record.txt", "rb+");
+		fp = fopen("file\\record.txt", "rb+");
 
 		while (fread(&record, sizeof(record), 1, fp) == 1)
 		{
@@ -546,7 +551,7 @@ void deleterecord()
 	printf("\nENTER PASSWORD\n");
 	/*int i;
 	scanf("%s", pass);*/
-	
+
 	while(1)
     {
         ch=getch();
@@ -581,7 +586,7 @@ void deleterecord()
 		while (another == 'Y' || another == 'y')
 
 		{
-			fp = fopen("file//record.txt", "rb");
+			fp = fopen("file\\record.txt", "rb");
 			
 			if (fp == NULL)
 			{
@@ -590,7 +595,7 @@ void deleterecord()
 				getch();
 				return;
 			}
-			ft = fopen("file//temp.txt", "wb");
+			ft = fopen("file\\temp.txt", "wb");
 
 			if (ft == NULL)
 			{
@@ -604,18 +609,15 @@ void deleterecord()
 			gets(id);
 
 			while (fread(&U, sizeof(U), 1, fp) == 1)
-
 			{
-
 				if (strcmp(U.id, id) != 0)
-
 					fwrite(&U, sizeof(U), 1, ft);
-
 			}
 			fclose(ft);
 			fclose(fp);
-			remove("file//record.txt");
-			rename("temp.txt", "record.txt");
+			//system("rm ")
+			remove("file\\record.txt");
+			rename("file\\temp.txt", "file\\record.txt");
 			printf("\nDELETED SUCCESFULLY...");
 			getch();
 
@@ -650,7 +652,11 @@ void searchrecord()
 	printf("\n\n\t\t====================================\n");
 	printf("\t\t\t- SEARCH RECORDS -");
 	printf("\n\t\t====================================\n\n");
-	fp = fopen("file//record.txt", "rb");
+	//fp = fopen("file//record.txt", "rb");
+	if( (fp = fopen("file\\record.txt", "rb")) == NULL ){
+		printf("\nError while opening file\n");
+		exit(1);
+	}
 
 	do
 	{
@@ -689,7 +695,7 @@ void searchrecord()
 			system("cls");
 			
 		}
-		fp = fopen("filename", "rb");
+		fp = fopen("file\\record.txt", "rb");
 
 		printf("\n\nWOULD YOU LIKE TO CONTINUE searching...(Y/N):");
 		fflush(stdin);
@@ -708,7 +714,7 @@ void viewrecord()
 	printf("\t\t\t - LIST OF RECORDS -");
 	printf("\n\t\t====================================\n");
 
-	fp = fopen("file//record.txt", "rb");
+	fp = fopen("file\\record.txt", "rb");
 	if(fp == NULL){
 		printf("File doesn't exists. Press any key to return...\n");
 		getch();
