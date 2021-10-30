@@ -27,10 +27,15 @@ struct Record{
 	char hair[10];
 	char eye[10];
 	char crime[30];
+	struct doc{
+		int year;
+		int month;
+		int day;
+	} doc;
 	char address[30];
 } record;
 
-void loadscreen(int time);
+void loadscreen(int time); 
 void login();
 void addrecord();
 void searchrecord();
@@ -70,7 +75,6 @@ void main()
 
 		switch (ch)
 		{
-
 		case 1:
 			viewrecord();
 			break;
@@ -257,7 +261,6 @@ void addrecord()
 		{
 			if (strcmp(record.id, id) == 0)
 			{
-
 				printf("\n\tTHE RECORD ALREADY EXISTS.\n");
 				exists = 1;
 
@@ -305,6 +308,15 @@ void addrecord()
 
 			printf("\tENTER CRIME: ");
 			gets(record.crime);
+			fseek(stdin, 0, SEEK_END);
+
+			printf("Enter date of crime committed...\n");
+			printf("Enter year: ");
+			scanf("%d", &record.doc.year);
+			printf("Enter month: ");
+			scanf("%d", &record.doc.month);
+			printf("Enter day: ");
+			scanf("%d", &record.doc.day);
 			fseek(stdin, 0, SEEK_END);
 
 			printf("\tCOMPLETE ADDRESS OF POLICE STATION: ");
@@ -365,6 +377,7 @@ void editrecord()
 				printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
 				printf("\n %c Convict's crime: %s           ", 179, record.crime);
 				printf("\n %c Address of police station: %s ", 179, record.address);
+				printf("\n %c Date of crime committed: %d/%d/%d  ", 179, record.doc.year, record.doc.month, record.doc.day);
 
 				printf("\n\n\t\tWhich details would you like to edit?");
 
@@ -378,9 +391,12 @@ void editrecord()
 				printf("\n %c 8.Haircolor", 179);
 				printf("\n %c 9.Eyecolor", 179);
 				printf("\n %c 10.Crime", 179);
-				printf("\n %c 11.Address of police station", 179);
-				printf("\n %c 12.Edit whole record", 179);
-				printf("\n %c 13.Go back", 179);
+				printf("\n %c 11.Crime year ", 179);
+				printf("\n %c 12.Crime month ", 179);
+				printf("\n %c 13.Crime day ", 179);
+				printf("\n %c 14.Address of police station", 179);
+				printf("\n %c 15.Edit whole record", 179);
+				printf("\n %c 16.Go back", 179);
 
 				do
 				{
@@ -433,10 +449,22 @@ void editrecord()
 						gets(record.crime);
 						break;
 					case 11:
+						printf("Enter new year: ");
+						scanf("%d", &record.doc.year);
+						break;
+					case 12:
+						printf("Enter new month: ");
+						scanf("%d", &record.doc.month);
+						break;
+					case 13:
+						printf("Enter new day: ");
+						scanf("%d", &record.doc.day);
+						break;
+					case 14:
 						printf("Enter new address: ");
 						gets(record.address);
 						break;
-					case 12:
+					case 15:
 						printf("ENTER THE NEW DATA:");
 
 						printf("Enter new name: ");
@@ -465,7 +493,7 @@ void editrecord()
 						
 						break;
 
-					case 13:
+					case 16:
 						printf("\nPRESS ANY KEY TO GO BACK...\n");
 						getch();
 						return;
@@ -512,6 +540,7 @@ void editrecord()
 			printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
 			printf("\n %c Convict's crime: %s           ", 179, record.crime);
 			printf("\n %c Address of police station: %s ", 179, record.address);
+			printf("\n %c Date of crime committed: %d/%d/%d  ", 179, record.doc.year, record.doc.month, record.doc.day);
 
 			
 			fclose(fp);
@@ -699,6 +728,7 @@ void searchrecord()
 				printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
 				printf("\n %c Convict's crime: %s           ", 179, record.crime);
 				printf("\n %c Address of police station: %s ", 179, record.address);
+				printf("\n %c Date of crime committed: %d/%d/%d  ", 179, record.doc.year, record.doc.month, record.doc.day);
 				flag = 1;
 			}
 		}
@@ -756,9 +786,9 @@ void viewrecord()
 		printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
 		printf("\n %c Convict's crime: %s           ", 179, record.crime);
 		printf("\n %c Address of police station: %s ", 179, record.address);
+		printf("\n %c Date of crime committed: %d/%d/%d  ", 179, record.doc.year, record.doc.month, record.doc.day);
 		getch();
 	}
-	
 	fclose(fp);
 	Sleep(200);
 	//getch();
