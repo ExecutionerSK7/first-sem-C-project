@@ -10,6 +10,7 @@ Description: This is our project for C-Programming of BEI I-I.
 #include<Windows.h>
 #include<time.h>
 #include<stdlib.h>
+#include<errno.h>
 #include "../include/rlutil.h"
 
 struct Record{
@@ -27,7 +28,6 @@ struct Record{
 	char eye[10];
 	char crime[30];
 	char address[30];
-
 } record;
 
 void loadscreen(int time);
@@ -115,6 +115,7 @@ void main()
 void loadscreen(int time)
 {	
 	system("color 07");
+	//https://patorjk.com/software/taag/#p=display&f=Big&t=PRMS
 	setColor(BLUE);
 	printf("\n\t\t     _____  _____  __  __  _____ ");
 	Sleep(time);
@@ -147,7 +148,7 @@ void loadscreen(int time)
 void login()
 {
 	int atmpt = 0, i = 0;
-	char user[10], c;
+	char user[10];
 	char ch;
 	char pword[10], code[10];
 
@@ -162,12 +163,12 @@ void login()
     while(1)
     {
         ch=getch();
-        if(ch==13)
+        if(ch==13) //return character
         {
             pword[i]='\0';
             break;
         }
-        else if(ch==8)
+        else if(ch==8)	//backspace character
         {
             if(i>0)
             {
@@ -175,7 +176,7 @@ void login()
                 printf("\b \b");
             }
         }
-        else if(ch==9)
+        else if(ch==9) //horizontal tab character
             continue;
         else
         {
@@ -226,9 +227,11 @@ void addrecord()
 
 
 	fp = fopen("file\\record.txt", "ab+");
-
+	
+/*
 	if (fp == NULL)
-	{
+	{	
+		
 		fp = fopen("file\\record.txt", "wb+");
 		if (fp == NULL)
 		{
@@ -238,7 +241,7 @@ void addrecord()
 			return;
 		}
 	}
-
+*/
 	while (Y == 'Y' || Y == 'y')
 
 	{
@@ -319,7 +322,9 @@ void addrecord()
 
 	}
 
+	
 	fclose(fp);
+	Sleep(200);
 	printf("\n\n\tPRESS ANY KEY TO RETURN TO PREVIOUS MENU...");
 	getch();
 
@@ -341,6 +346,7 @@ void editrecord()
 		printf("\n\tEnter id:");
 		fseek(stdin, 0, SEEK_END);
 		gets(id);
+		
 		fp = fopen("file\\record.txt", "rb+");
 
 		while (fread(&record, sizeof(record), 1, fp) == 1)
@@ -487,9 +493,7 @@ void editrecord()
 
 			}
 		}
-
 		if (select == 'Y')
-
 		{
 
 			system("cls");
@@ -509,24 +513,25 @@ void editrecord()
 			printf("\n %c Convict's crime: %s           ", 179, record.crime);
 			printf("\n %c Address of police station: %s ", 179, record.address);
 
+			
 			fclose(fp);
+			Sleep(200);
 
 			printf("\n\n\tWOULD YOU LIKE TO EDIT ANOTHER RECORD.(Y/N)");
 			scanf("%c", &select);
 			//select++;
-
 		}
 		else
 		{
-
 			printf("\nTHE RECORD DOES NOT EXIST::\n");
 			printf("\nWOULD YOU LIKE TO TRY AGAIN...(Y/N)");
 			scanf("%c", &select);
-
 		}
 	}while (select == 'Y' || select == 'y');
 
+	
 	fclose(fp);
+	Sleep(200);
 	printf("\tPRESS ENTER TO EXIT EDITING MENU.");
 	getch();
 }
@@ -538,7 +543,8 @@ void deleterecord()
 	struct Record U;
 	char filename[15], another = 'Y', id[16];
 	char pword[10];
-	char c = ' ';
+	int ret;
+	//char c = ' ';
 	char ch;
 	int choice, check;
 	int j = 0;
@@ -581,23 +587,23 @@ void deleterecord()
 
 	if (strcmpi(pword, "pass") == 0)
 	{
-
 		printf("\n\t\t*ACCESS GRANTED*\n\n");
 		while (another == 'Y' || another == 'y')
-
-		{
-			fp = fopen("file\\record.txt", "rb");
+		{	
 			
-			if (fp == NULL)
+			//fp = fopen("file\\record.txt", "rb");
+			
+			if ( (fp = fopen("file\\record.txt", "rb")) == NULL)
 			{
 				printf("\nTHE FILE DOES NOT EXIST");
 				printf("\nPRESS ANY KEY TO GO BACK.");
 				getch();
 				return;
 			}
-			ft = fopen("file\\temp.txt", "wb");
+			
+			//ft = fopen("file\\temp.txt", "wb");
 
-			if (ft == NULL)
+			if ( (ft = fopen("file\\temp.txt", "wb")) == NULL)
 			{
 				printf("\nSYSTEM ERROR");
 				printf("\nPRESS ANY KEY TO GO BACK");
@@ -613,12 +619,24 @@ void deleterecord()
 				if (strcmp(U.id, id) != 0)
 					fwrite(&U, sizeof(U), 1, ft);
 			}
+			
 			fclose(ft);
+			Sleep(200);
+			
 			fclose(fp);
-			//system("rm ")
-			remove("file\\record.txt");
+			printf("Deleting record......");
+			Sleep(200);
+			ret = remove("file\\record.txt");
 			rename("file\\temp.txt", "file\\record.txt");
-			printf("\nDELETED SUCCESFULLY...");
+			if(ret == 0){
+				printf("\nDeleted successfully!");
+				//printf("\nerror: %d", errno);
+			}
+			else{
+				perror("\nError deleting the record! ");
+				printf("\nerror: %d", errno);
+			}
+			//printf("\nDELETED SUCCESFULLY...");
 			getch();
 
 			printf("\n\tDO YOU LIKE TO DELETE ANOTHER RECORD.(Y/N):");
@@ -626,10 +644,7 @@ void deleterecord()
 			scanf("%c", &another);
 
 		}
-
-
 		printf("\n\n\tPRESS ANY KEY TO EXIT...");
-
 		getch();
 	}
 	else
@@ -653,6 +668,7 @@ void searchrecord()
 	printf("\t\t\t- SEARCH RECORDS -");
 	printf("\n\t\t====================================\n\n");
 	//fp = fopen("file//record.txt", "rb");
+	
 	if( (fp = fopen("file\\record.txt", "rb")) == NULL ){
 		printf("\nError while opening file\n");
 		exit(1);
@@ -690,12 +706,14 @@ void searchrecord()
 			printf("\nNo such record exists. Would you like to add new record?(Y/N) \n");
 			scanf("%c", &addnew);
 			if (addnew == 'Y' || addnew == 'y') {
+				fclose(fp);
 				addrecord();
+				fopen("file\\record.txt", "rb");
 			}
 			system("cls");
 			
 		}
-		fp = fopen("file\\record.txt", "rb");
+		//fp = fopen("file\\record.txt", "rb");
 
 		printf("\n\nWOULD YOU LIKE TO CONTINUE searching...(Y/N):");
 		fflush(stdin);
@@ -703,7 +721,9 @@ void searchrecord()
 		scanf("%c", &Y);
 
 	}while (Y == 'Y' || Y == 'y');
+	
 	fclose(fp);
+	Sleep(200);
 }
 
 void viewrecord()
@@ -714,8 +734,9 @@ void viewrecord()
 	printf("\t\t\t - LIST OF RECORDS -");
 	printf("\n\t\t====================================\n");
 
-	fp = fopen("file\\record.txt", "rb");
-	if(fp == NULL){
+	
+	//fp = fopen("file\\record.txt", "rb");
+	if( (fp = fopen("file\\record.txt", "rb") )== NULL){
 		printf("File doesn't exists. Press any key to return...\n");
 		getch();
 		return;
@@ -737,8 +758,10 @@ void viewrecord()
 		printf("\n %c Address of police station: %s ", 179, record.address);
 		getch();
 	}
+	
 	fclose(fp);
-	getch();
+	Sleep(200);
+	//getch();
 }
 
 void credits()
