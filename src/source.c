@@ -369,7 +369,7 @@ void editrecord()
 
 				printf("\n %c ID = %s                       ", 179, record.id);
 				printf("\n %c Convict's name: %s            ", 179, record.name);
-				printf("\n %c Convict's date of birth: %d/%d/%d  ", 179, record.dob.year, record.dob.month, record.dob.day);
+				printf("\n %c Convict's date of birth: %.2d/%.2d/%.2d  ", 179, record.dob.year, record.dob.month, record.dob.day);
 				printf("\n %c Convict's gender: %s          ", 179, record.gender);
 				printf("\n %c Convict's weight: %s          ", 179, record.weight);
 				printf("\n %c Convict's height: %s          ", 179, record.height);
@@ -377,7 +377,7 @@ void editrecord()
 				printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
 				printf("\n %c Convict's crime: %s           ", 179, record.crime);
 				printf("\n %c Address of police station: %s ", 179, record.address);
-				printf("\n %c Date of crime committed: %d/%d/%d  ", 179, record.doc.year, record.doc.month, record.doc.day);
+				printf("\n %c Date of crime committed: %.2d/%.2d/%.2d  ", 179, record.doc.year, record.doc.month, record.doc.day);
 
 				printf("\n\n\t\tWhich details would you like to edit?");
 
@@ -532,7 +532,7 @@ void editrecord()
 			printf("--------------------\n");
 			printf("\n %c ID = %s                       ", 179, record.id);
 			printf("\n %c Convict's name: %s            ", 179, record.name);
-			printf("\n %c Convict's date of birth: %d/%d/%d  ", 179, record.dob.year, record.dob.month, record.dob.day);
+			printf("\n %c Convict's date of birth: %.2d/%.2d/%.2d  ", 179, record.dob.year, record.dob.month, record.dob.day);
 			printf("\n %c Convict's gender: %s          ", 179, record.gender);
 			printf("\n %c Convict's weight: %s          ", 179, record.weight);
 			printf("\n %c Convict's height: %s          ", 179, record.height);
@@ -540,7 +540,7 @@ void editrecord()
 			printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
 			printf("\n %c Convict's crime: %s           ", 179, record.crime);
 			printf("\n %c Address of police station: %s ", 179, record.address);
-			printf("\n %c Date of crime committed: %d/%d/%d  ", 179, record.doc.year, record.doc.month, record.doc.day);
+			printf("\n %c Date of crime committed: %.2d/%.2d/%.2d  ", 179, record.doc.year, record.doc.month, record.doc.day);
 
 			
 			fclose(fp);
@@ -721,14 +721,14 @@ void searchrecord()
 				printf("\n %c ID = %s                       ", 179, record.id);
 				printf("\n %c Convict's name: %s            ", 179, record.name);
 				printf("\n %c Convict's gender: %s          ", 179, record.gender);
-				printf("\n %c Convict's date of birth: %d/%d/%d:  ", 179, record.dob.year, record.dob.month, record.dob.day);
+				printf("\n %c Convict's date of birth: %.2d/%.2d/%.2d:  ", 179, record.dob.year, record.dob.month, record.dob.day);
 				printf("\n %c Convict's weight: %s          ", 179, record.weight);
 				printf("\n %c Convict's height: %s          ", 179, record.height);
 				printf("\n %c Convict's haircolor: %s       ", 179, record.hair);
 				printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
 				printf("\n %c Convict's crime: %s           ", 179, record.crime);
 				printf("\n %c Address of police station: %s ", 179, record.address);
-				printf("\n %c Date of crime committed: %d/%d/%d  ", 179, record.doc.year, record.doc.month, record.doc.day);
+				printf("\n %c Date of crime committed: %.2d/%.2d/%.2d  ", 179, record.doc.year, record.doc.month, record.doc.day);
 				flag = 1;
 			}
 		}
@@ -779,14 +779,14 @@ void viewrecord()
 		printf("\n %c ID = %s                       ", 179, record.id);
 		printf("\n %c Convict's name: %s            ", 179, record.name);
 		printf("\n %c Convict's gender: %s          ", 179, record.gender);
-		printf("\n %c Convict's date of birth: %d/%d/%d:  ", 179, record.dob.year, record.dob.month, record.dob.day);
+		printf("\n %c Convict's date of birth: %.2d/%.2d/%.2d:  ", 179, record.dob.year, record.dob.month, record.dob.day);
 		printf("\n %c Convict's weight: %s          ", 179, record.weight);
 		printf("\n %c Convict's height: %s          ", 179, record.height);
 		printf("\n %c Convict's haircolor: %s       ", 179, record.hair);
 		printf("\n %c Convict's eyecolor: %s        ", 179, record.eye);
 		printf("\n %c Convict's crime: %s           ", 179, record.crime);
 		printf("\n %c Address of police station: %s ", 179, record.address);
-		printf("\n %c Date of crime committed: %d/%d/%d  ", 179, record.doc.year, record.doc.month, record.doc.day);
+		printf("\n %c Date of crime committed: %.2d/%.2d/%.2d  ", 179, record.doc.year, record.doc.month, record.doc.day);
 		getch();
 	}
 	fclose(fp);
